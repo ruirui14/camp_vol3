@@ -16,8 +16,8 @@ function App() {
         {/* ルートの定義 */}
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/camera_photograph" element={<Camera />} />
-          <Route path="/photo_upload" element={<Upload />} />
+          <Route path="/camera" element={<Camera />} />
+          <Route path="/upload" element={<Upload />} />
           <Route path="/photo_change" element={<PhotoChange />} />
         </Routes>
       </Router>
