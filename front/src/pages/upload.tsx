@@ -2,15 +2,32 @@
 import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import { useDropzone } from "react-dropzone";
+import { useState } from "react";
+import { useCallback } from "react";
 
 function Upload() {
   const navigate = useNavigate();
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
 
   const gotoChange = () => {
     navigate("/photo_change");
   };
 
-  const { acceptedFiles, getRootProps, getInputProps } = useDropzone();
+  // ドロップされた画像ファイルを読み込んでBase64に変換する
+  const onDrop = useCallback((acceptedFiles: File[]) => {
+    const file = acceptedFiles[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        setImageUrl(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  }, []);
+
+  const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
+    onDrop,
+  });
 
   const files = acceptedFiles.map((file: File) => (
     <li key={file.name}>{file.name}</li>
@@ -19,7 +36,7 @@ function Upload() {
   return (
     <>
       <Header />
-      <div className="min-h-screen bg-[#0F1A24]  p-4">
+      <div className="min-h-screen bg-[#0F1A24] p-4">
         <div className="text-gray-300 mt-20 ml-8">
           <h1 className="text-[36px] font-bold ">画像をアップロード</h1>
           <p className="">画像をアップロードしてください</p>
@@ -39,6 +56,16 @@ function Upload() {
             </p>
           </div>
         </div>
+
+        {imageUrl && (
+          <div className="mt-6">
+            <img
+              src={imageUrl}
+              alt="アップロードされた画像"
+              className="max-w-xs rounded shadow-md"
+            />
+          </div>
+        )}
 
         <ul className="mt-4 space-y-2">{files}</ul>
 
