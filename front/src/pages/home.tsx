@@ -1,5 +1,6 @@
 //ホーム画面
 import { useNavigate } from "react-router-dom";
+import Header from "../components/Header";
 
 function Home() {
   const navigate = useNavigate();
@@ -16,10 +17,7 @@ function Home() {
   return (
     <>
       <div className="bg-[#0F1A24] min-h-screen ">
-        <header className="py-2 border-b border-gray-300 fixed top-0 w-full z-10">
-          <h1 className="text-white font-bold">るいるいず</h1>
-        </header>
-
+        <Header />
         {/* flex flex-col items-center justify-center */}
         <main className="pt-[60px]  min-h-screen flex flex-col items-center justify-center">
           <div className="text-center space-y-4 mb-8">
