@@ -16,14 +16,14 @@ function Home() {
 
   return (
     <>
-      <div className="bg-[#0F1A24] min-h-screen ">
+      <div className="h-screen min-h-screen overflow-hidden bg-[#0F1A24]">
         <Header />
         {/* flex flex-col items-center justify-center */}
-        <main className="pt-[60px]  min-h-screen flex flex-col items-center justify-center">
-          <div className="text-center space-y-4 mb-8">
-            <h1 className="text-white text-[40px] font-bold ">写真を選択</h1>
+        <main className="flex min-h-screen flex-col items-center justify-center pt-[60px]">
+          <div className="mb-8 space-y-4 text-center">
+            <h1 className="text-[40px] font-bold text-white">写真を選択</h1>
 
-            <p className="text-white font-semibold">
+            <p className="font-semibold text-white">
               写真を選択するか、新しい写真を選択してください
             </p>
           </div>
@@ -31,13 +31,13 @@ function Home() {
           <div className="">
             <button
               onClick={gotoCamera}
-              className="bg-[#21364A] hover:bg-[#2B4E6D] text-white rounded p-2 pr-4 pl-4 mr-4"
+              className="mr-4 rounded bg-[#21364A] p-2 pr-4 pl-4 text-white hover:bg-[#2B4E6D]"
             >
               写真を撮る
             </button>
             <button
               onClick={gotoUpload}
-              className="bg-[#21364A] hover:bg-[#2B4E6D] text-white rounded p-2 pr-4 pl-4"
+              className="rounded bg-[#21364A] p-2 pr-4 pl-4 text-white hover:bg-[#2B4E6D]"
             >
               写真を選択
             </button>
