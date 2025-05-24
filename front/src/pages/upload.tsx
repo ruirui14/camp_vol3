@@ -2,14 +2,15 @@
 import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import { useDropzone } from "react-dropzone";
-// import { useState } from "react";
-import { useCallback } from "react";
+import { useState, useCallback } from "react";
 import { useImageContext } from "../contexts/ImageContext";
 
 function Upload() {
   const navigate = useNavigate();
 
   const { image, setImage } = useImageContext();
+
+  const [showWarning, setShowWarning] = useState(false);
 
   // ドロップされた画像ファイルを読み込んでBase64に変換する
   const onDrop = useCallback((acceptedFiles: File[]) => {
@@ -19,7 +20,7 @@ function Upload() {
       reader.onload = () => {
         const image = reader.result as string;
         setImage(image);
-        setImage(image);
+        setShowWarning(false); // 画像が選ばれたら警告を消す
       };
       reader.readAsDataURL(file);
     }
@@ -30,7 +31,11 @@ function Upload() {
   });
 
   const gotoChange = () => {
-    navigate("/photo_change");
+    if (!image) {
+      setShowWarning(true); //画像なければ警告を表示
+      return;
+    }
+    navigate("/photo_change"); //画像があれば遷移
   };
 
   return (
@@ -66,7 +71,7 @@ function Upload() {
           </div>
         </div>
 
-        <div className="flex justify-center mt-4">
+        <div className="mt-4 flex justify-center">
           <button
             onClick={gotoChange}
             className="mr-4 bg-[#21364A] p-2 pr-4 pl-4 text-white hover:bg-[#2B4E6D]"
@@ -74,6 +79,9 @@ function Upload() {
             upload
           </button>
         </div>
+        {showWarning && (
+          <p className="mt-4 text-center text-red-400">画像をアップロードしてください</p>
+        )}
       </div>
     </>
   );
