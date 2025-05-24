@@ -12,7 +12,7 @@ import { ImageProvider } from "./contexts/ImageContext";
 function App() {
   return (
     <>
-      <Router basename="/app/">
+      <Router>
         {/* ルートの定義 */}
         <ImageProvider>
           <Routes>
