@@ -4,14 +4,14 @@ import Header from "../components/Header";
 import { useDropzone } from "react-dropzone";
 import { useState } from "react";
 import { useCallback } from "react";
+import { useImageContext } from "../contexts/ImageContext";
 
 function Upload() {
   const navigate = useNavigate();
+  //Recoilのsetter
   const [imageUrl, setImageUrl] = useState<string | null>(null);
 
-  const gotoChange = () => {
-    navigate("/photo_change");
-  };
+  const { setImage } = useImageContext();
 
   // ドロップされた画像ファイルを読み込んでBase64に変換する
   const onDrop = useCallback((acceptedFiles: File[]) => {
@@ -19,7 +19,9 @@ function Upload() {
     if (file) {
       const reader = new FileReader();
       reader.onload = () => {
-        setImageUrl(reader.result as string);
+        const image = reader.result as string;
+        setImageUrl(image);
+        setImage(image);
       };
       reader.readAsDataURL(file);
     }
@@ -30,6 +32,10 @@ function Upload() {
   });
 
   const files = acceptedFiles.map((file: File) => <li key={file.name}>{file.name}</li>);
+
+  const gotoChange = () => {
+    navigate("/photo_change");
+  };
 
   return (
     <>
