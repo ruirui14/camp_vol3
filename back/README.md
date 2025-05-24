@@ -25,7 +25,7 @@
 
 ### 1. 画像変換
 
-- **エンドポイント**: `POST /api/transform-image`
+- **エンドポイント**: `POST /api/transform/suit`
 - **リクエストタイプ**: `multipart/form-data`
 - **フォームデータ**:
   - `image`: (File) 変換したい画像ファイル。
@@ -115,6 +115,6 @@
 ```bash
 curl -X POST \
   -F "image=@/path/to/your/image.jpg" \
-  http://localhost:8787/api/transform-image
+  http://localhost:8787/api/transform/suit
 # デプロイ後の場合は http://localhost:8787 を実際のWorker URLに置き換えてください。
 ```
