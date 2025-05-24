@@ -2,16 +2,14 @@
 import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import { useDropzone } from "react-dropzone";
-import { useState } from "react";
+// import { useState } from "react";
 import { useCallback } from "react";
 import { useImageContext } from "../contexts/ImageContext";
 
 function Upload() {
   const navigate = useNavigate();
-  //Recoilのsetter
-  const [imageUrl, setImageUrl] = useState<string | null>(null);
 
-  const { setImage } = useImageContext();
+  const { image, setImage } = useImageContext();
 
   // ドロップされた画像ファイルを読み込んでBase64に変換する
   const onDrop = useCallback((acceptedFiles: File[]) => {
@@ -20,18 +18,16 @@ function Upload() {
       const reader = new FileReader();
       reader.onload = () => {
         const image = reader.result as string;
-        setImageUrl(image);
+        setImage(image);
         setImage(image);
       };
       reader.readAsDataURL(file);
     }
   }, []);
 
-  const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
+  const { getRootProps, getInputProps } = useDropzone({
     onDrop,
   });
-
-  const files = acceptedFiles.map((file: File) => <li key={file.name}>{file.name}</li>);
 
   const gotoChange = () => {
     navigate("/photo_change");
@@ -56,10 +52,10 @@ function Upload() {
             {/*getInputProps:input要素（ファイル選択）に必要な設定を自動でつける*/}
             <input {...getInputProps()} />
 
-            {imageUrl ? (
+            {image ? (
               // 画像があれば表示
               <img
-                src={imageUrl}
+                src={image}
                 alt="アップロードされた画像"
                 className="mx-auto h-auto max-w-full object-scale-down shadow-md"
               />
@@ -70,9 +66,7 @@ function Upload() {
           </div>
         </div>
 
-        <ul className="mt-4 space-y-2">{files}</ul>
-
-        <div className="flex justify-center">
+        <div className="flex justify-center mt-4">
           <button
             onClick={gotoChange}
             className="mr-4 bg-[#21364A] p-2 pr-4 pl-4 text-white hover:bg-[#2B4E6D]"

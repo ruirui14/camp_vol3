@@ -1,16 +1,13 @@
 //キャプチャ画面
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import { useImageContext } from "../contexts/ImageContext";
 
 function PhotoChange() {
-  const navigate = useNavigate();
+//   const navigate = useNavigate();
 
   const { image } = useImageContext();
 
-  const gotoHome = () => {
-    navigate("/home");
-  };
   return (
     <>
       <Header />
