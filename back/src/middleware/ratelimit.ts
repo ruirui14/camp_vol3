@@ -13,7 +13,7 @@ const DEFAULT_KEY_PREFIX = "rate-limit:";
  * Cloudflare KVを使用してリクエスト数をカウント
  *
  * @param kvNamespace - リクエストカウントに使用するCloudflare KV Namespace。必須。
- * @param limit - windowMs内に許可する最大リクエスト数。デフォルトは60。
+ * @param limit - windowMs内に許可する最大リクエスト数。デフォルトは20。
  * @param windowMs - リクエスト数をカウントする期間（ミリ秒）。デフォルトは60000 (1分)。
  * @param statusCode - 制限を超過した場合に返すHTTPステータスコード。デフォルトは429。
  * @param message - 制限を超過した場合に返すエラーメッセージ。
