@@ -84,11 +84,11 @@ function Upload() {
       {loading && <LoadingSpinner />}
       <Header />
       <div className="h-screen min-h-screen overflow-hidden bg-[#0F1A24] p-4">
-        <div className="mt-20 ml-8 text-gray-300">
+        <div className="mt-16 ml-8 text-gray-300">
           <h1 className="text-[36px] font-bold">画像をアップロード</h1>
           <p className="">画像をアップロードしてください</p>
         </div>
-        <div className="flex flex-col items-center justify-center">
+        <div className="mt-[-2px] flex flex-col items-center justify-center">
           <div
             /*getRootProps:ドラッグドロップのエリア全体にイベントハンドラを設定する*/
             {...getRootProps({
