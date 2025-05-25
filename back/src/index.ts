@@ -1,9 +1,11 @@
 import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { GoogleGenAI, Modality } from "@google/genai";
+import { rateLimitMiddleware } from "./middleware/ratelimit";
 
 type Bindings = {
   GEMINI_API_KEY: string;
+  RATE_LIMIT_KV: KVNamespace;
 };
 
 const app = new Hono<{ Bindings: Bindings }>();
@@ -19,6 +21,11 @@ const PROMPT = `
 
 // 最大ファイルサイズ（10MB）
 const MAX_FILE_SIZE = 10 * 1024 * 1024;
+
+app.use("/api/*", (c, next) => {
+  const limiter = rateLimitMiddleware(c.env.RATE_LIMIT_KV);
+  return limiter(c, next);
+});
 
 // 画像変換エンドポイント
 app.post("/api/transform/suit", async (c) => {
