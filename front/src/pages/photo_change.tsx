@@ -9,7 +9,7 @@ function PhotoChange() {
   const { convertedImage } = useImageContext(); //変換後画像
   const { image } = useImageContext(); //元の画像
 
-  const [showOriginal, setShowOriginal] = useState(true);
+  const [showOriginal, setShowOriginal] = useState(false);
 
   // 保存ボタン押したときの処理
   const handleSave = () => {
