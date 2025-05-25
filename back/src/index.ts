@@ -1,3 +1,4 @@
+// src/index.ts - Cloudflare Workers用 Hono アプリケーション
 import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { GoogleGenAI, Modality } from "@google/genai";
@@ -13,22 +14,32 @@ const app = new Hono<{ Bindings: Bindings }>();
 // CORS設定
 app.use("/*", cors());
 
-// 固定プロンプト
-const PROMPT = `
-    元の人物の顔の特徴とポーズを正確に維持し、服装のみをスーツに変更してください。
-    顔の表情、髪型、体型、ポーズはそのままに。背景も保持してください。
-  `;
+// プロンプト定義
+const PROMPTS = {
+  camera: `
+    The image we will give you this time is of the torso (from the neck to the chest). The image we will give you is of casual clothing, so please edit it to a black tie formal suit and submit it. Please do not change the neck position or width (keep the neck color as given) or the size of the image.
+  `,
+  upload: `
+    The image we will give you this time is from the face to the chest.
+    The image we give you is of casual clothes, so please convert it to a formal suit and submit it.
+    Keep the original person's facial features and pose. The position of the neck and the overall image size must also remain unchanged.
+    Must change the background to #FFFFFF.
+    Ties must be worn.
+    The suit should be a photorealistic formal business suit, styled appropriately for the person's gender (men's suit for a male, women's suit for a female), not anime-style. It should have a realistic texture, showing fabric details and natural wrinkles.
+  `,
+};
 
 // 最大ファイルサイズ（10MB）
 const MAX_FILE_SIZE = 10 * 1024 * 1024;
 
+// レート制限ミドルウェアを適用
 app.use("/api/*", (c, next) => {
   const limiter = rateLimitMiddleware(c.env.RATE_LIMIT_KV);
   return limiter(c, next);
 });
 
-// 画像変換エンドポイント
-app.post("/api/transform/suit", async (c) => {
+// 共通の画像変換処理
+async function transformImage(c: any, prompt: string) {
   try {
     const formData = await c.req.formData();
     const imageFile = formData.get("image") as File;
@@ -65,7 +76,7 @@ app.post("/api/transform/suit", async (c) => {
 
     const base64Image = btoa(binaryString);
 
-    // 画像生成モデルで背景除去を実行
+    // 画像生成モデルでスーツ変換を実行
     const response = await ai.models.generateContent({
       model: "gemini-2.0-flash-preview-image-generation",
       contents: [
@@ -75,10 +86,10 @@ app.post("/api/transform/suit", async (c) => {
             data: base64Image,
           },
         },
-        PROMPT,
+        prompt,
       ],
       config: {
-        responseModalities: [Modality.TEXT, Modality.IMAGE], // テキストは使わないが、書く必要がある
+        responseModalities: [Modality.TEXT, Modality.IMAGE],
       },
     });
 
@@ -124,6 +135,16 @@ app.post("/api/transform/suit", async (c) => {
       500
     );
   }
+}
+
+// カメラ用画像変換エンドポイント
+app.post("/api/transform/suit/camera", async (c) => {
+  return transformImage(c, PROMPTS.camera);
+});
+
+// アップロード用画像変換エンドポイント
+app.post("/api/transform/suit/upload", async (c) => {
+  return transformImage(c, PROMPTS.upload);
 });
 
 // ルートエンドポイント
