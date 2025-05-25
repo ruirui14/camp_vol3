@@ -11,6 +11,21 @@ function PhotoChange() {
 
   const [showOriginal, setShowOriginal] = useState(true);
 
+  // 保存ボタン押したときの処理
+  const handleSave = () => {
+    if (!convertedImage) {
+      alert("保存する画像がありません");
+      return;
+    }
+    // Base64データからダウンロードリンクを作成
+    const link = document.createElement("a");
+    link.href = convertedImage; // 例: "data:image/png;base64,xxxx"
+    link.download = "converted-image.png"; // ダウンロードファイル名
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <>
       <Header />
@@ -50,11 +65,14 @@ function PhotoChange() {
         <div className="mt-4 flex justify-center text-gray-100">
           <div className="flex flex-col items-center gap-4">
             <p>再生成すると、画像は自動的に削除されます</p>
-            <div className="flex justify-center gap-12 mr-2">
+            <div className="mr-2 flex justify-center gap-12">
               <button className="rounded bg-[#21364A] p-2 pr-4 pl-4 hover:bg-[#2B4E6D]">
                 再生成
               </button>
-              <button className="rounded bg-[#21364A] p-2 pr-4 pl-4 hover:bg-[#2B4E6D]">
+              <button
+                onClick={handleSave}
+                className="rounded bg-[#21364A] p-2 pr-4 pl-4 hover:bg-[#2B4E6D]"
+              >
                 保存
               </button>
             </div>
