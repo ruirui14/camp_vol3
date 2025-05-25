@@ -48,7 +48,7 @@ function Upload() {
     setLoading(true); // ← 開始時にローディング表示ON
 
     try {
-      const response = await fetch("http://localhost:8787/api/transform/suit", {
+      const response = await fetch("http://localhost:8787/api/transform/suit/upload", {
         method: "POST",
         body: formData,
       });

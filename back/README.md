@@ -25,7 +25,9 @@
 
 ### 1. 画像変換
 
-- **エンドポイント**: `POST /api/transform/suit`
+- **エンドポイント**:
+  - `POST /api/transform/suit/camera` 首と胴体のみ
+  - `POST /api/transform/suit/upload` 全身
 - **リクエストタイプ**: `multipart/form-data`
 - **フォームデータ**:
   - `image`: (File) 変換したい画像ファイル。
