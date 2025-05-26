@@ -1,7 +1,6 @@
 //撮影画面
 import { useNavigate } from "react-router-dom";
-import { CameraFrames } from "./face_crop";
-// import CameraFrame from "./face_crop";
+import CameraFrames from "./camera_frame";
 
 function Camera() {
   const navigate = useNavigate();
