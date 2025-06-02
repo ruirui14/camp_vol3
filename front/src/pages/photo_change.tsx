@@ -3,13 +3,15 @@
 import Header from "../components/Header";
 import { useImageContext } from "../contexts/ImageContext";
 import { useState } from "react";
+import "img-comparison-slider";
+import ReactCompareImage from "react-compare-image"; 
 
 function PhotoChange() {
   //const navigate = useNavigate();
   const { convertedImage } = useImageContext(); //変換後画像
   const { image } = useImageContext(); //元の画像
 
-  const [showOriginal, setShowOriginal] = useState(false);
+  const [showSlider, setShowSlider] = useState(true);
 
   // 保存ボタン押したときの処理
   const handleSave = () => {
@@ -32,36 +34,44 @@ function PhotoChange() {
       <div className="h-screen min-h-screen overflow-hidden bg-[#0F1A24]">
         <div className="mt-30 mr-2 flex justify-center gap-12">
           <button
-            onClick={() => setShowOriginal(true)}
+            onClick={() => setShowSlider(true)}
             className={`rounded p-2 pr-4 pl-4 text-gray-100 hover:bg-[#2B4E6D] ${
-              showOriginal ? "bg-[#2B4E6D]" : "bg-[#21364A]"
+              showSlider ? "bg-[#2B4E6D]" : "bg-[#21364A]"
             }`}
           >
-            元の画像
+            比較
           </button>
           <button
-            onClick={() => setShowOriginal(false)}
+            onClick={() => setShowSlider(false)}
             className={`rounded p-2 pr-4 pl-4 text-gray-100 hover:bg-[#2B4E6D] ${
-              !showOriginal ? "bg-[#2B4E6D]" : "bg-[#21364A]"
+              !showSlider ? "bg-[#2B4E6D]" : "bg-[#21364A]"
             }`}
           >
             変換後
           </button>
         </div>
 
-        <div className="mt-4 flex justify-center p-4">
-          {showOriginal && image && (
-            <img src={image} alt="元の画像" className="mx-auto max-w-xs bg-gray-100 p-2 shadow" />
-          )}
-          {!showOriginal && convertedImage && (
-            <img
-              src={convertedImage}
-              alt="変換後の画像"
-              className="mx-auto max-w-xs bg-gray-100 p-2 shadow"
-            />
+        <div className="mt-8 flex justify-center">
+          {image && convertedImage ? (
+            showSlider ? (
+              <div className="w-full max-w-md">
+                <ReactCompareImage
+                  leftImage={image}
+                  rightImage={convertedImage}
+                  sliderPositionPercentage={0.5}
+                />
+              </div>
+            ) : (
+              <img
+                src={convertedImage}
+                alt="変換後の画像"
+                className="max-w-xs bg-gray-100 p-2 shadow"
+              />
+            )
+          ) : (
+            <p className="text-center text-white">画像がありません</p>
           )}
         </div>
-
         <div className="mt-4 flex justify-center text-gray-100">
           <div className="flex flex-col items-center gap-4">
             <p>再生成すると、画像は自動的に削除されます</p>

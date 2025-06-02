@@ -60,8 +60,8 @@ function Upload() {
       try {
         data = JSON.parse(text); // ← JSONとしてパースを試みる
         console.log("レスポンスのデータ:", data);
-      } catch (e) {
-        throw new Error("レスポンスがJSONではありません: " + text);
+      } catch (parseError) {
+        throw new Error("JSONパースエラー:" + parseError + "レスポンスがJSONではありません: " + text);
       } finally {
         setLoading(false); // ← 成功でも失敗でもOFFにする
       }
