@@ -3,7 +3,7 @@
 // import viteLogo from '/vite.svg'
 import "./App.css";
 import Home from "./pages/home";
-import Camera from "./pages/camera";
+import CameraFrame from "./pages/camera_frame";
 import Upload from "./pages/upload";
 import PhotoChange from "./pages/photo_change";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
@@ -17,7 +17,7 @@ function App() {
         <ImageProvider>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/camera" element={<Camera />} />
+            <Route path="/camera_frame" element={<CameraFrame />} />
             <Route path="/upload" element={<Upload />} />
             <Route path="/photo_change" element={<PhotoChange />} />
           </Routes>

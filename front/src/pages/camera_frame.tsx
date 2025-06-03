@@ -593,3 +593,5 @@ export const CameraFrame = () => {
     </div>
   );
 };
+
+export default CameraFrame;

@@ -7,7 +7,7 @@ function Home() {
 
   //撮影画面へ遷移
   const gotoCamera = () => {
-    navigate("/camera");
+    navigate("/camera_frame");
   };
   //写真アップロード画面へ遷移
   const gotoUpload = () => {
